@@ -1,0 +1,21 @@
+ken-burns-carousel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+button {
+    position: absolute;
+    z-index: 1000;
+    top: 10px;
+}
+
+botton.toggle {
+    left: 10px;
+}
+
+button.view-mode {
+    right: 10px;
+}

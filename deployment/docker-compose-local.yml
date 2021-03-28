@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  frame-db:
+    restart: always
+    image: postgres:11.6
+    volumes:
+      - frame_db_data:/var/lib/postgresql/data/
+      - ../db/scripts/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+      - ../db/tmp-data:/tmp/data:cached
+      - ../db/backups:/backups:cached
+      - ../db/scripts:/scripts:cached
+    environment:
+      - DEV_DB=${DEV_DB}
+      - DEV_DB_USER=${DEV_DB_USER}
+      - DEV_DB_PW=${DEV_DB_PW}
+      - DEV=1
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  frame-api:
+    restart: always
+    image: frame-api
+    depends_on:
+      - frame-db
+    build: ../api
+    volumes:
+      - ..:/workspaces:cached
+    environment:
+      - DJANGO_SECRET_KEY=${DEV_SECRET_KEY}
+      - DJANGO_CONFIGURATION=Local
+      - DJANGO_DB=${DEV_DB}
+      - DJANGO_DB_USER=${DEV_DB_USER}
+      - DJANGO_DB_PASSWORD=${DEV_DB_PW}
+      - DJANGO_DB_URL=${DEV_DB_URL}
+    command: >
+      bash -c "cd /workspaces/api &&
+               python wait_for_postgres.py &&
+               ./manage.py migrate &&
+               ./manage.py runserver 0.0.0.0:8000"
+    ports:
+      - '8000:8000'
+
+  frame-client:
+    restart: always
+    image: frame-client
+    depends_on:
+      - frame-api
+    build: ../picture-frame-prototype
+    ports:
+      - "80:80" 
+
+volumes:
+  frame_db_data:

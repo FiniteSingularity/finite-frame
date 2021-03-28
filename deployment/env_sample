@@ -1,0 +1,6 @@
+DEV_DB_URL=pmtools-db
+DEV_DB=pmtools
+DEV_DB_USER=pmtools
+DEV_DB_PW=2bPqv@*9NtwcG7Q+9TAX
+DEV_SECRET_KEY=89h2tj4iwojfa;0293m9ur0fj0oapwfme
+POSTGRES_PASSWORD=jf2908jhrtu932jf8023jf490fj
