@@ -18,7 +18,7 @@ export class KenBurnsComponent implements OnInit, OnChanges {
   imagesEle: ElementRef;
 
   @Input() images: string[] = [];
-  @Input() slideDuration: number = 20000;
+  @Input() slideDuration: number = 5000;
   @Input() fadeDuration: number = 4000;
 
   currentImageId: number = null;
@@ -98,7 +98,7 @@ export class KenBurnsComponent implements OnInit, OnChanges {
     this.renderer.addClass(nextImg, 'img-fill');
     this.renderer.appendChild(this.nextImage, nextImg);
     this.currentImageId += 1;
-
+    console.log(this.slideDuration);
     setTimeout(() => {this.setNextImage()}, this.slideDuration);
   }
 }

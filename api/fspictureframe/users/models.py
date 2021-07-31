@@ -54,7 +54,7 @@ def frame_saved(sender, instance, created, **kwargs):
         action = 'CREATED'
     else:
         action = 'UPDATED'
-
+    print('sending frame info...')
     async_to_sync(channel_layer.group_send)('frames', {
         'type': 'frame.auth',
         'data': {

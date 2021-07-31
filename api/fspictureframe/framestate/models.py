@@ -31,6 +31,7 @@ class FrameState(models.Model):
 
 @receiver(post_save, sender=FrameState)
 def frame_state_saved(sender, instance, created, **kwargs):
+    print("frame state saved!")
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)('framestates', {
         'type': 'fs.crud',

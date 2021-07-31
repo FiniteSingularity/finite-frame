@@ -38,6 +38,7 @@ class CreateFrameViewSet(mixins.CreateModelMixin,
 
     @action(detail=True, methods=['patch'])
     def activate(self, request, username=None):
+        print("Activate!")
         frame = self.get_object()
         data = request.data
         frame.frame_location = data['frame_location']

@@ -13,3 +13,4 @@ RUN npm install -g @angular/cli
 
 # [Optional] Uncomment if you want to install more global node packages
 # RUN su node -c "npm install -g <your-package-list -here>"
+EXPOSE 4201

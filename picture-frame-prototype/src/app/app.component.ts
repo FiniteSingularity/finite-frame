@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // this.authenticated = this.auth._authenticated;
+    console.log('ngOnInit');
     this.subs.add(
       this.auth.authorized$.subscribe(auth => {
         this.authenticated = auth;
