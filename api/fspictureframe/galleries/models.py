@@ -1,8 +1,14 @@
+from PIL import Image
+import os
+
+from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 
 # Create your models here.
 MEDIA_BASE = "/media/galleries/"
-
+MEDIA_BASE_PATH = f"{settings.MEDIA_ROOT}/galleries/"
 
 class Gallery(models.Model):
     name = models.CharField(max_length=255)
@@ -25,6 +31,7 @@ class Gallery(models.Model):
 
 class GalleryPicture(models.Model):
     file_name = models.CharField(max_length=255)
+    thumbnail_name = models.CharField(max_length=255, null=True, blank=True)
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name='pictures')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -32,3 +39,20 @@ class GalleryPicture(models.Model):
     def path(self):
         return '{}{}'.format(self.gallery.base_url(), self.file_name)
 
+
+@receiver(post_save, sender=GalleryPicture)
+def gallery_picture_saved(sender, instance, created, **kwargs):
+    if created:
+        file_name = instance.file_name
+        image_path = f'{MEDIA_BASE_PATH}{instance.gallery.dir_name()}/{file_name}'
+        thumb_dir = f'{MEDIA_BASE_PATH}{instance.gallery.dir_name()}/thumbnails'
+        if not os.path.exists(thumb_dir):
+            os.makedirs(thumb_dir)
+        thumbnail_name = f'thumbnails/{file_name}'
+        thumb_save_path =  f'{MEDIA_BASE_PATH}{instance.gallery.dir_name()}/{thumbnail_name}'
+        print(image_path)
+        image = Image.open(image_path)
+        image.thumbnail((128,128))
+        image.save(thumb_save_path)
+        instance.thumbnail_name=thumbnail_name
+        instance.save()

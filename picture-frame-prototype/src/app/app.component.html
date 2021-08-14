@@ -292,7 +292,7 @@
 <div class="content" role="main">
   <app-setup *ngIf="!authenticated"></app-setup>
   <ng-container *ngIf="authenticated">
-    <app-ken-burns *ngIf="view === 'P'" [images]="images" [fadeDuration]="2000" [slideDuration]="5000"></app-ken-burns>
+    <app-ken-burns *ngIf="view === 'P'" [images]="images" [fadeDuration]="4000" [slideDuration]="20000"></app-ken-burns>
     <app-calendar *ngIf="view === 'C'"></app-calendar>
     <app-recipes *ngIf="view === 'R'">
     </app-recipes>

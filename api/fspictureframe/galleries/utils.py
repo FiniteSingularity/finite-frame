@@ -16,7 +16,8 @@ def scan_for_galleries():
             name for name in os.listdir(path='./{}{}'.format(MEDIA_BASE, d))
         ]
         for image in images:
-            GalleryPicture.objects.create(file_name=image, gallery=g)
+            if image != 'thumbnails':
+                GalleryPicture.objects.create(file_name=image, gallery=g)
     
     for d in old_directories:
         images = [
@@ -28,7 +29,7 @@ def scan_for_galleries():
             img.file_name for img in g.pictures.all()
         ]
         for img in images:
-            if img not in existing:
+            if img not in existing and img != 'thumbnails':
                 GalleryPicture.objects.create(file_name=img, gallery=g)
 
     for d in to_delete:

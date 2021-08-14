@@ -3,14 +3,18 @@ from .models import Gallery, GalleryPicture
 
 class GallerySerializer(serializers.ModelSerializer):
     base_url = serializers.SerializerMethodField()
+    image_count = serializers.SerializerMethodField()
 
     def get_base_url(self, obj):
         return obj.base_url()
 
+    def get_image_count(self, obj):
+        return obj.pictures.all().count()
+
     class Meta:
         model = Gallery
-        fields = ('id', 'name', 'created', 'updated', 'base_url', )
-        read_only_fields = ('id', 'created', 'updated', 'base_url', )
+        fields = ('id', 'name', 'image_count', 'created', 'updated', 'base_url', )
+        read_only_fields = ('id', 'image_count', 'created', 'updated', 'base_url', )
 
 
 class GalleryPictureSerializer(serializers.ModelSerializer):

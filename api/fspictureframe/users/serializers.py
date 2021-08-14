@@ -3,6 +3,8 @@ import random
 import traceback
 
 from rest_framework import serializers
+
+from fspictureframe.framestate.serializers import FrameStateSerializer
 from .models import User
 
 
@@ -14,8 +16,9 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ('username', )
 
 
-class CreateFrameSerializer(serializers.ModelSerializer):
 
+class FrameSerializer(serializers.ModelSerializer):
+    state = FrameStateSerializer(many=False)
     def create(self, validated_data):
         ModelClass = self.Meta.model
 
@@ -52,8 +55,8 @@ class CreateFrameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'active', )
-        read_only_fields = ('id', 'username', 'active', )
+        fields = ('id', 'username', 'active', 'frame_location', 'state', )
+        read_only_fields = ('id', 'username', 'state', )
 
 
 class CreateUserSerializer(serializers.ModelSerializer):

@@ -22,6 +22,12 @@
   // Uncomment the next line to run commands after the container is created - for example installing git.
   "postCreateCommand": "pip3 install --user -r requirements.txt",
   // Add the IDs of any extensions you want installed in the array below.
-  "extensions": ["ms-python.python"],
-  "forwardPorts": [8000, 45367],
+  "extensions": [
+    "ms-python.python",
+    "octref.vetur"
+  ],
+  // "forwardPorts": [
+  //   8000,
+  //   45367
+  // ],
 }
