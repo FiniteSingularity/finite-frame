@@ -20,7 +20,7 @@ class FrameState(models.Model):
         (VIDEOS, 'Videos'),
     ]
 
-    frame = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    frame = models.OneToOneField('users.User', on_delete=models.CASCADE, related_name='state')
     view = models.CharField(max_length=2, choices=VIEW_CHOICES, default=PICTURES)
     gallery = models.ForeignKey(
         'galleries.Gallery',
@@ -31,6 +31,7 @@ class FrameState(models.Model):
 
 @receiver(post_save, sender=FrameState)
 def frame_state_saved(sender, instance, created, **kwargs):
+    print("frame state saved!")
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)('framestates', {
         'type': 'fs.crud',

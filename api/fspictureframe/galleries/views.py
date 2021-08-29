@@ -15,6 +15,7 @@ class GalleryViewSet(viewsets.ModelViewSet):
     queryset = Gallery.objects.all()
     serializer_class = GallerySerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = None
 
     @action(detail=True, methods=['get'])
     def pictures(self, request, pk=None):

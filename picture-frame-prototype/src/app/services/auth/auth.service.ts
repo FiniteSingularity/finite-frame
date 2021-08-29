@@ -95,8 +95,9 @@ export class AuthService {
   }
 
   frameSetup() {
+    console.log('frame Setup called!');
     this.jsonSubject = webSocket({
-      url: 'ws://192.168.1.114:8000/ws/frames/',
+      url: `${environment.wsUrl}/ws/frames/`,
       openObserver: {
         next: () => {
           console.log('Connected to websocket');

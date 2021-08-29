@@ -18,24 +18,34 @@ export class KenBurnsComponent implements OnInit, OnChanges {
   imagesEle: ElementRef;
 
   @Input() images: string[] = [];
-  @Input() slideDuration: number = 20000;
+  @Input() slideDuration: number = 5000;
   @Input() fadeDuration: number = 4000;
 
   currentImageId: number = null;
   currentImage: HTMLElement = null;
   nextImage: HTMLElement = null;
+  currentTimeout = null;
 
   constructor(private renderer: Renderer2) { }
 
   ngOnInit(): void {
-    console.log(this.images);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if(this.images.length > 0) {
+      this.shuffleImages();
       this.grabFirstImage();
     } else {
       this.currentImageId = null;
+    }
+  }
+
+  shuffleImages() {
+    for(let i = this.images.length -1; i > 0; i--) { 
+      const j = Math.floor(Math.random() * i);
+      const tmp = this.images[i];
+      this.images[i] = this.images[j];
+      this.images[j] = tmp; 
     }
   }
 
@@ -50,6 +60,10 @@ export class KenBurnsComponent implements OnInit, OnChanges {
     const childElements = this.imagesEle.nativeElement.children;
     for (const child of childElements) {
       this.renderer.removeChild(this.imagesEle.nativeElement, child);
+    }
+    if(this.currentTimeout) {
+      clearTimeout(this.currentTimeout);
+      this.currentTimeout = null;
     }
   }
 
@@ -74,16 +88,15 @@ export class KenBurnsComponent implements OnInit, OnChanges {
     this.renderer.setStyle(this.nextImage, 'animation-duration', `${this.fadeDuration}ms`)
     this.renderer.addClass(nextImg, 'img-fill');
     this.renderer.appendChild(this.nextImage, nextImg);
-    setTimeout(() => {this.setNextImage()}, this.slideDuration);
+    this.currentTimeout = setTimeout(() => {this.setNextImage()}, this.slideDuration);
   }
 
   setNextImage() {
-    console.log('setNextImage()');
     this.renderer.addClass(this.currentImage, 'fadeOut');
     const oldImg = this.currentImage;
     this.currentImage = this.nextImage;
     this.renderer.appendChild(this.imagesEle.nativeElement, this.currentImage);
-    setTimeout(() => {
+    this.currentTimeout = setTimeout(() => {
       this.renderer.removeChild(this.imagesEle.nativeElement, oldImg);
     }, this.fadeDuration);
     if(this.currentImageId === this.images.length) {
@@ -98,7 +111,6 @@ export class KenBurnsComponent implements OnInit, OnChanges {
     this.renderer.addClass(nextImg, 'img-fill');
     this.renderer.appendChild(this.nextImage, nextImg);
     this.currentImageId += 1;
-
     setTimeout(() => {this.setNextImage()}, this.slideDuration);
   }
 }

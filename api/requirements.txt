@@ -22,7 +22,7 @@ django-filter==2.4.0
 
 # Developer Tools
 ipdb==0.13.4
-ipython==7.19.0
+ipython==7.25.0
 mkdocs==1.1.2
 flake8==3.8.4
 django-cors-headers==3.5.0
@@ -44,3 +44,5 @@ channels==2.4.0
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+
+Pillow==8.3.1

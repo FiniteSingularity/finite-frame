@@ -1,0 +1,7 @@
+{
+  "name": "fsFrameApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

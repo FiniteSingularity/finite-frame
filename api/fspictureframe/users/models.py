@@ -1,3 +1,4 @@
+from fspictureframe.users.utils import create_frame_state
 import uuid
 from django.db import models
 from django.conf import settings
@@ -40,13 +41,8 @@ def frame_saved(sender, instance, created, **kwargs):
         return
     
     if created:
-        fs = FrameState.objects.create(frame=instance)
-        print('creating framestate')
-        galleries = Gallery.objects.all()
-        if galleries.count() > 0:
-            fs.gallery = galleries.first()
-            fs.save()
-
+        create_frame_state(instance)
+    
     token = Token.objects.get(user=instance)
 
     channel_layer = get_channel_layer()
@@ -54,7 +50,7 @@ def frame_saved(sender, instance, created, **kwargs):
         action = 'CREATED'
     else:
         action = 'UPDATED'
-
+    print('sending frame info...')
     async_to_sync(channel_layer.group_send)('frames', {
         'type': 'frame.auth',
         'data': {

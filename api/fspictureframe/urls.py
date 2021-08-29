@@ -1,5 +1,3 @@
-from django.views.decorators.csrf import csrf_exempt
-
 from django.conf import settings
 from django.urls import path, re_path, include, reverse_lazy
 from django.conf.urls.static import static
@@ -7,7 +5,7 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from .users.views import UserViewSet, UserCreateViewSet, CreateFrameViewSet
+from .users.views import UserViewSet, UserCreateViewSet, FrameViewSet
 from .framestate.views import FrameStateViewSet
 from .galleries.views import GalleryViewSet
 
@@ -15,7 +13,7 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'users', UserCreateViewSet)
 router.register(r'frames/states', FrameStateViewSet)
-router.register(r'frames', CreateFrameViewSet)
+router.register(r'frames', FrameViewSet)
 router.register(r'galleries', GalleryViewSet)
 
 urlpatterns = [

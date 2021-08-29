@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { delay, retryWhen } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { environment } from 'src/environments/environment';
 import { ApiService } from '../api/api.service';
 import { AuthService } from '../auth/auth.service';
 
@@ -83,7 +84,7 @@ export class FrameStateService {
   openWebSocket() {
     console.log("Open Websocket");
     this.jsonSubject = webSocket({
-      url: 'ws://192.168.1.114:8000/ws/frames/state/',
+      url: `${environment.wsUrl}/ws/frames/state/`,
       openObserver: {
         next: () => {
           console.log('Connected to websocket');

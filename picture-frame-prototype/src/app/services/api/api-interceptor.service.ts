@@ -53,7 +53,8 @@ export class ApiInterceptorService implements HttpInterceptor, OnDestroy {
     // }
     request = request.clone({
       setHeaders: {
-        Authorization: `Token 7c582f06923dd02619feb5a9efd1223b647cdfcd`,
+        //Authorization: `Token 7c582f06923dd02619feb5a9efd1223b647cdfcd`,
+        Authorization: `Token abaea8fb71b7a2c63c80aec377c976841877a715`
       }
     })
     const reqBodySnake = snakecaseKeys(request.body);
