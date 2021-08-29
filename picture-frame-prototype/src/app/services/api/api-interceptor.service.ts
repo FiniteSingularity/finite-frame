@@ -21,10 +21,7 @@ export class ApiInterceptorService implements HttpInterceptor, OnDestroy {
   authSub: Subscription;
   token: string = null;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor(private authService: AuthService, private router: Router) {
     // this.authSub = this.authService.authenticationState.subscribe(authDat => {
     //   this.token = authDat.token ? authDat.token : authDat.token;
     // });
@@ -53,10 +50,10 @@ export class ApiInterceptorService implements HttpInterceptor, OnDestroy {
     // }
     request = request.clone({
       setHeaders: {
-        //Authorization: `Token 7c582f06923dd02619feb5a9efd1223b647cdfcd`,
-        Authorization: `Token abaea8fb71b7a2c63c80aec377c976841877a715`
-      }
-    })
+        Authorization: `Token 7c582f06923dd02619feb5a9efd1223b647cdfcd`,
+        //Authorization: `Token abaea8fb71b7a2c63c80aec377c976841877a715`
+      },
+    });
     const reqBodySnake = snakecaseKeys(request.body);
     request = request.clone({ body: reqBodySnake });
 
@@ -88,4 +85,3 @@ export class ApiInterceptorService implements HttpInterceptor, OnDestroy {
     );
   }
 }
-
