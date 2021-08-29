@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class FrameSerializer(serializers.ModelSerializer):
-    state = FrameStateSerializer(many=False)
+    state = FrameStateSerializer(many=False, read_only=True)
     def create(self, validated_data):
         ModelClass = self.Meta.model
 
@@ -55,8 +55,8 @@ class FrameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'active', 'frame_location', 'state', )
-        read_only_fields = ('id', 'username', 'state', )
+        fields = ['id', 'username', 'active', 'frame_location', 'state',]
+        read_only_fields = ['id', 'username', 'state']
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
