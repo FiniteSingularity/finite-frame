@@ -38,6 +38,11 @@ class GalleryPicture(models.Model):
 
     def path(self):
         return '{}{}'.format(self.gallery.base_url(), self.file_name)
+    
+    def thumbnail_path(self):
+        if self.thumbnail_name is None:
+            return None
+        return f'{self.gallery.base_url()}{self.thumbnail_name}'
 
 
 @receiver(post_save, sender=GalleryPicture)
@@ -50,7 +55,6 @@ def gallery_picture_saved(sender, instance, created, **kwargs):
             os.makedirs(thumb_dir)
         thumbnail_name = f'thumbnails/{file_name}'
         thumb_save_path =  f'{MEDIA_BASE_PATH}{instance.gallery.dir_name()}/{thumbnail_name}'
-        print(image_path)
         image = Image.open(image_path)
         image.thumbnail((128,128))
         image.save(thumb_save_path)

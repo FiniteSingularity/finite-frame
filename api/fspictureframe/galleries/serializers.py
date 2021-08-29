@@ -19,10 +19,14 @@ class GallerySerializer(serializers.ModelSerializer):
 
 class GalleryPictureSerializer(serializers.ModelSerializer):
     path = serializers.SerializerMethodField()
+    thumbnail_path = serializers.SerializerMethodField()
 
     def get_path(self, obj):
         return obj.path()
 
+    def get_thumbnail_path(self, obj):
+        return obj.thumbnail_path()
+
     class Meta:
         model = GalleryPicture
-        fields = ('id', 'file_name', 'path', 'gallery', 'created', 'updated',)
+        fields = ('id', 'file_name', 'path', 'thumbnail_path', 'gallery', 'created', 'updated',)

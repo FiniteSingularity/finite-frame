@@ -64,6 +64,7 @@ export default defineComponent({
     function getGalleryData(id) {
       galleryId.value = id;
       gallery.value = store.getters['galleries/entities'][id];
+      store.dispatch('galleryImages/loadAll', id);
     }
 
     watch(
